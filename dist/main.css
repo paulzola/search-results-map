@@ -1,4 +1,10 @@
-.smr-test {
-  color: goldenrod;
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.srm-map {
+  height: 284px;
+  width: 100%;
 }
 

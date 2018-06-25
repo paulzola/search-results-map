@@ -58,7 +58,7 @@ const rules = [
 
 ];
 
-path.resolve(__dirname, './dist/main.js')
+path.resolve(__dirname, './dist/main.js');
 
 const plugins = [
 
