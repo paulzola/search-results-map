@@ -38,10 +38,6 @@ class Layout {
         return this.map;
     }
 
-    static create (data) {
-        return new Layout(data);
-    }
-
 }
 
 export default Layout;

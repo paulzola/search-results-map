@@ -23,6 +23,7 @@ class SearchBox {
     _handlePlaceChange = () => {
         const place = this.autocomplete.getPlace();
         const location = place.geometry.location;
+        this.clear();
         this.onPlaceChange({
             name: place.name,
             location: {lat: location.lat(), lng: location.lng()},
@@ -31,10 +32,6 @@ class SearchBox {
 
     clear () {
         this.input.value = '';
-    }
-
-    static create (data) {
-        return new SearchBox(data);
     }
 
 }

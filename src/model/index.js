@@ -2,8 +2,6 @@
 
 import * as ee from '../event-emmiter';
 
-let instanceCount = 0;
-
 class Model {
 
     constructor (data = {}) {
@@ -17,7 +15,6 @@ class Model {
         this.place = place;
         this.history = history;
         this.eventEmitter = eventEmitter;
-        this.instanceCount = instanceCount++;
     }
 
     _collectPlaceObj (place) {
@@ -42,8 +39,17 @@ class Model {
     }
 
     addHistoryItem (place) {
-        this.history.unshift(this._collectPlaceObj(place));
-        this.publish('onHistoryChange', this.history);
+        const nPlace = this._collectPlaceObj(place);
+        this.history.unshift(nPlace);
+        this.publish('onAddHistoryItem', nPlace);
+    }
+
+    getHistory () {
+        return this.history;
+    }
+
+    getPlace () {
+        return this.place;
     }
 
     selectHistoryItem (id) {
@@ -60,24 +66,20 @@ class Model {
     }
 
     subscribe (key, callback) {
-        this.eventEmitter.subscribe(this._getInstanceName(key), callback);
+        this.eventEmitter.subscribe(this._getEventName(key), callback);
     }
 
     unSubscribe (key, callback) {
-        this.eventEmitter.unsubscribe(this._getInstanceName(key), callback);
+        this.eventEmitter.unsubscribe(this._getEventName(key), callback);
     }
 
     publish (key, data) {
-        this.eventEmitter.publish(this._getInstanceName(key), data);
+        this.eventEmitter.publish(this._getEventName(key), data);
     }
 
-    _getInstanceName (key) {
-        const name = `Model-${this.instanceCount}`;
+    _getEventName (key) {
+        const name = 'SRM-Model';
         return key ? `${name}-${key}` : name;
-    }
-
-    static create (data) {
-        return new Model(data);
     }
 
 }

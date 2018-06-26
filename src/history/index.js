@@ -1,6 +1,7 @@
 'use strict';
 
 import historyCard from '../history-card';
+import emptyHistory from '../empty-history';
 import recursiveNodeCheck from '../recursive-node-check';
 
 class History {
@@ -8,6 +9,7 @@ class History {
     constructor ({container, onCardClick}) {
         this.container = container;
         this.onCardClick = onCardClick;
+        this.emptyMessageShow = false;
         this._createBox();
     }
 
@@ -44,15 +46,26 @@ class History {
         return cardBox;
     }
 
-    render (history) {
+    addHistoryCard (historyItem) {
+        this._removeEmptyMessage();
+        this.box.insertBefore(this._getCardBox(historyItem), this.box.firstChild);
+    }
 
-        console.log('history', history);
-
-        if (!history || !history.length) {
-            return;
+    _removeEmptyMessage () {
+        if (this.emptyMessageShow) {
+            this._clearElement(this.box);
+            this.emptyMessageShow = false;
         }
+    }
 
-        this._clearElement(this.box);
+    _renderEmptyMessage () {
+        this.box.innerHTML = emptyHistory();
+        this.emptyMessageShow = true;
+    }
+
+    _renderCards (history) {
+
+        this._removeEmptyMessage();
 
         const historyFragment = document.createDocumentFragment();
         history.forEach(i => {
@@ -61,8 +74,16 @@ class History {
         this.box.appendChild(historyFragment);
     }
 
-    static create (data) {
-        return new History(data);
+    render (history) {
+
+        this._clearElement(this.box);
+
+        if (!history || !history.length) {
+            this._renderEmptyMessage();
+            return;
+        }
+
+        this._renderCards(history);
     }
 
 }
