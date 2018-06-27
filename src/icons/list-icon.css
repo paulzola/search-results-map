@@ -5,3 +5,7 @@
   height: 24px;
   width: 24px;
 }
+
+.srm-list-icon_gray {
+  background-image: url('./list-icon_gray.svg');
+}
