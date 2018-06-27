@@ -1,5 +1,10 @@
 'use strict';
 
 import './style/default.css';
+import './images/favicon.png';
 
-console.log('Search results map');
+import app from './app';
+
+window.srm = () => app({
+    container: document.getElementById('srm-app'),
+});

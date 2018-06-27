@@ -5,17 +5,20 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const clean = new CleanWebpackPlugin(['dist'], {
+const clean = () => new CleanWebpackPlugin(['dist'], {
     root: path.resolve(),
     verbose: true,
     dry: false,
 });
 
-const entry = './src/index.js';
+const entry = {
+    main: './src/index.js',
+    //vendor: ['babel-polyfill', './src/babel-helpers'],
+};
 
 const output = {
     path: path.resolve(__dirname, './dist'),
-    filename: 'main.js',
+    filename: '[name].js',
     publicPath: '/',
 };
 
@@ -41,18 +44,26 @@ const rules = [
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
     },
 
+    {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+            {
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                },
+            },
+        ],
+    },
+
 ];
 
-path.resolve(__dirname, './dist/main.js')
+path.resolve(__dirname, './dist/main.js');
 
 const plugins = [
 
     new HtmlWebPackPlugin({
         template: path.resolve(__dirname, './src/index.html'),
-        files: {
-            css: path.resolve(__dirname, './dist/main.css'),
-            js: path.resolve(__dirname, './dist/main.js'),
-        },
         inject: false,
     }),
 
@@ -64,14 +75,14 @@ const plugins = [
 ];
 
 const productionPlugins = [
-    clean,
+    clean(),
 ];
 
-const config = env => ({
+const config = (env, argv) => ({
     entry,
     output,
     module: {rules},
-    plugins: env === 'production' ? productionPlugins.concat(plugins) : plugins,
+    plugins: argv.mode === 'production' ? productionPlugins.concat(plugins) : plugins,
 });
 
 module.exports = config;
