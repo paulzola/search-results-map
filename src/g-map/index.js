@@ -66,7 +66,6 @@ class GMap {
             return;
         }
 
-        this.marker.setMap(null);
         this.marker.setLabel(name);
         this.marker.setPosition(location);
         this.setCenter(location);

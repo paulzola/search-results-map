@@ -1,7 +1,7 @@
 'use strict';
 
 import './style/default.css';
-import './images/favicon.png';
+import './images';
 
 import app from './app';
 

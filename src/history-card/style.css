@@ -1,0 +1,13 @@
+.srm-history-card {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.srm-history-card:hover .srm-place-name,
+.srm-history-card:hover .srm-place-location {
+  color: #85b7d9;
+}
+
+.srm-history-card_active {
+  border: 1px solid #eee;
+}

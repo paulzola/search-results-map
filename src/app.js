@@ -14,7 +14,7 @@ const setMapPlace = (gMap, model) => {
 
     const place = model.getPlace();
 
-    if (place.location) {
+    if (place && place.location) {
         gMap.addMarker(place);
         return;
     }
@@ -41,24 +41,25 @@ const app = ({container}) => {
         container: layout.getSearchBoxContainer(),
         onPlaceChange: place => {
             model.setPlace(place);
-            model.addHistoryItem(place);
+            model.makeCurrentPlaceHistory();
         },
     });
+
 
     const gMap = new GMap({container: layout.getMapContainer()});
     setMapPlace(gMap, model);
 
     const history = new History({
         container: layout.getHistoryContainer(),
-        onCardClick: id => model.selectHistoryItem(id),
+        onCardClick: id => model.selectHistoryPlace(id),
     });
 
-    const historyData = model.getHistory();
-    history.render(historyData);
+    history.render(model.getHistory());
 
     model.subscribe('onPlaceChange', place => gMap.addMarker(place));
-    model.subscribe('onAddHistoryItem', historyItem => history.addHistoryCard(historyItem));
+    model.subscribe('onHistoryChange', historyData => history.render(historyData));
 
+    /*
     window.addEventListener('beforeunload', () => {
         storage.save({
             data: {
@@ -68,7 +69,7 @@ const app = ({container}) => {
             key: STORAGE_KEY,
         });
     });
-
+    */
 };
 
 export default app;

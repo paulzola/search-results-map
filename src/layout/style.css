@@ -1,11 +1,52 @@
+.srm-layout {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
 .srm-layout__search-box {
-  margin-bottom: 12px;
+  height: 58px;
+  left: 0;
+  padding: 16px 16px 0 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .srm-layout__history {
-
+  height: 60px;
+  left: 16px;
+  overflow-x: auto;
+  position: absolute;
+  right: 16px;
+  top: 74px;
 }
 
 .srm-layout__map {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 134px;
+}
+
+@media (min-width: 960px) {
+
+  .srm-layout__history {
+    bottom: 0;
+    height: auto;
+    right: auto;
+    padding-left: 8px;
+    padding-right: 12px;
+    width: 200px;
+  }
+
+  .srm-layout__map {
+    left: 228px;
+    right: 16px;
+    top: 74px;
+  }
 
 }

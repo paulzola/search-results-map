@@ -14,15 +14,23 @@ class Model {
 
         this.place = place;
         this.history = history;
+        this.activePlaceOnHistory = null;
         this.eventEmitter = eventEmitter;
+    }
+
+    getHistory () {
+        return this.history;
+    }
+
+    getPlace () {
+        return this.place;
     }
 
     _collectPlaceObj (place) {
         if (place.id) {
             return place;
         }
-        const {location} = place;
-        const id = `${location.lat}-${location.lng}`;
+        const id = `${new Date().getTime()}`;
         return Object.assign({}, place, {id});
     }
 
@@ -38,21 +46,25 @@ class Model {
         this.publish('onPlaceChange', this.place);
     }
 
-    addHistoryItem (place) {
-        const nPlace = this._collectPlaceObj(place);
-        this.history.unshift(nPlace);
-        this.publish('onAddHistoryItem', nPlace);
+    setPlaceActiveInHistory (place) {
+
+        if (this.activePlaceOnHistory) {
+            this.activePlaceOnHistory.active = false;
+        }
+
+        this.activePlaceOnHistory = place;
+        this.activePlaceOnHistory.active = true;
+
+        this.publish('onHistoryChange', this.history);
+
     }
 
-    getHistory () {
-        return this.history;
+    makeCurrentPlaceHistory () {
+        this.history.unshift(this.place);
+        this.setPlaceActiveInHistory(this.place);
     }
 
-    getPlace () {
-        return this.place;
-    }
-
-    selectHistoryItem (id) {
+    selectHistoryPlace (id) {
 
         if (!this.history.length) {
             return;
@@ -62,6 +74,7 @@ class Model {
 
         if (historyPlace) {
             this.setPlace(historyPlace);
+            this.setPlaceActiveInHistory(historyPlace);
         }
     }
 
