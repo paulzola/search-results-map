@@ -5,10 +5,10 @@ import Layout from './layout';
 import SearchBox from './search-box';
 import GMap from './g-map';
 import History from './history';
-//import * as storage from './storage';
+import * as storage from './storage';
 import getDefaultCoords from './get-default-coords';
 
-//const STORAGE_KEY = 'SRMModel';
+const STORAGE_KEY = 'SRMModel';
 
 const setMapPlace = (gMap, model) => {
 
@@ -28,14 +28,12 @@ const setMapPlace = (gMap, model) => {
 
 const app = ({container}) => {
 
-    // const savedData = storage.load(STORAGE_KEY);
+    const savedData = storage.load(STORAGE_KEY);
 
-    // const model = new Model({
-    //     place: savedData.place,
-    //     history: savedData.history,
-    // });
-
-    const model = new Model();
+    const model = new Model({
+        place: savedData.place,
+        history: savedData.history,
+    });
 
     const layout = new Layout({container});
 
@@ -61,15 +59,15 @@ const app = ({container}) => {
     model.subscribe('onPlaceChange', place => gMap.addMarker(place));
     model.subscribe('onAddHistoryItem', historyItem => history.addHistoryCard(historyItem));
 
-    // window.addEventListener('beforeunload', () => {
-    //     storage.save({
-    //         data: {
-    //             place: model.getPlace(),
-    //             history: model.getHistory(),
-    //         },
-    //         key: STORAGE_KEY,
-    //     });
-    // });
+    window.addEventListener('beforeunload', () => {
+        storage.save({
+            data: {
+                place: model.getPlace(),
+                history: model.getHistory(),
+            },
+            key: STORAGE_KEY,
+        });
+    });
 
 };
 
