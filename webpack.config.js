@@ -22,41 +22,52 @@ const output = {
     publicPath: '/',
 };
 
-const rules = [
-
-    {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'babel-loader',
-        },
-    },
-
-    {
-        test: /\.html$/,
-        use: {
-            loader: 'html-loader',
-        },
-    },
-
-    {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-    },
-
-    {
-        test: /\.(png|jpg|gif|svg)$/,
-        use: [
-            {
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                },
+const rules = isProduction => {
+    return [
+        {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
             },
-        ],
-    },
+        },
 
-];
+        {
+            test: /\.html$/,
+            use: {
+                loader: 'html-loader',
+            },
+        },
+
+        {
+            test: /\.css$/,
+            use: [
+                {
+                    loader: isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        minimize: isProduction,
+                    },
+                },
+            ],
+        },
+
+        {
+            test: /\.(png|jpg|gif|svg)$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                    },
+                },
+            ],
+        },
+
+    ]
+};
 
 path.resolve(__dirname, './dist/main.js');
 
@@ -81,7 +92,7 @@ const productionPlugins = [
 const config = (env, argv) => ({
     entry,
     output,
-    module: {rules},
+    module: {rules: rules(argv.mode === 'production')},
     plugins: argv.mode === 'production' ? productionPlugins.concat(plugins) : plugins,
 });
 
