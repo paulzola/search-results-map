@@ -22,8 +22,8 @@ const output = {
     publicPath: '/',
 };
 
-const rules = isProduction => {
-    return [
+const rules = isProduction =>
+    [
         {
             test: /\.js$/,
             exclude: /node_modules/,
@@ -43,7 +43,7 @@ const rules = isProduction => {
             test: /\.css$/,
             use: [
                 {
-                    loader: isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                    loader: MiniCssExtractPlugin.loader,
                 },
                 {
                     loader: 'css-loader',
@@ -66,8 +66,7 @@ const rules = isProduction => {
             ],
         },
 
-    ]
-};
+    ];
 
 path.resolve(__dirname, './dist/main.js');
 

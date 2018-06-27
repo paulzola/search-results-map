@@ -1,0 +1,26 @@
+.srm-history-toggle {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  padding: 0;
+  outline: none;
+  position: relative;
+  width: 100%;
+}
+
+.srm-history-toggle__icon {
+  height: 36px;
+  left: 50%;
+  margin: -18px 0 0 -18px;
+  position: absolute;
+  top: 50%;
+  transition: transform 250ms;
+  width: 36px;
+}
+
+.srm-history-toggle_tease .srm-history-toggle__icon,
+.srm-history-toggle:hover .srm-history-toggle__icon {
+  transform: scale(1.2);
+}

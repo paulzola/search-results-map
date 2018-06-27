@@ -7,6 +7,7 @@ import GMap from './g-map';
 import History from './history';
 import * as storage from './storage';
 import getDefaultCoords from './get-default-coords';
+import HistoryToggle from './history-toggle';
 
 const STORAGE_KEY = 'SRMModel';
 
@@ -70,9 +71,22 @@ const app = ({container}) => {
         onCardClick: id => model.selectHistoryPlace(id),
     });
 
-    model.subscribe('onPlaceChange', place => gMap.addMarker(place));
+    const historyToggle = new HistoryToggle({
+        container: layout.getHistoryToggleContainer(),
+        onHistoryShowChange: historyShow => layout.setHistoryShow(historyShow),
+    });
+
+    model.subscribe('onPlaceChange', place => {
+        gMap.addMarker(place);
+        historyToggle.hideHistory();
+    });
+
     model.subscribe('onHistoryChange', historyData => history.render(historyData));
-    model.subscribe('onMakeCurrentPlaceHistory', () => layout.scrollToTop());
+
+    model.subscribe('onMakeCurrentPlaceHistory', () => {
+        layout.scrollToTop();
+        historyToggle.tease();
+    });
 
     setInitialModel(model);
     saveToStorage(model);

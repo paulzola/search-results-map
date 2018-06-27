@@ -8,21 +8,35 @@
 
 .srm-layout__search-box {
   height: 54px;
-  left: 0;
-  padding: 16px 16px 0 16px;
+  left: 16px;
+  position: absolute;
+  right: 64px;
+  top: 16px;
+}
+
+.srm-layout__history-toggle {
+  height: 42px;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 16px;
+  width: 64px;
 }
 
 .srm-layout__history {
-  height: 64px;
-  left: 16px;
+  background: #fff;
+  bottom: 0;
+  display: none;
+  left: 0;
   overflow-x: auto;
+  padding: 0 16px;
   position: absolute;
-  right: 16px;
-  text-align: center;
+  right: 0;
   top: 70px;
+  z-index: 2;
+}
+
+.srm-layout_history-show .srm-layout__history {
+  display: block;
 }
 
 .srm-layout__map {
@@ -30,25 +44,15 @@
   left: 0;
   position: absolute;
   right: 0;
-  top: 138px;
+  top: 70px;
+  z-index: 1;
 }
 
 @media (min-width: 960px) {
 
   .srm-layout__history {
-    bottom: 0;
-    height: auto;
-    right: auto;
-    padding-right: 16px;
-    text-align: left;
-    top: 78px;
+    left: auto;
     width: 200px;
-  }
-
-  .srm-layout__map {
-    left: 232px;
-    right: 16px;
-    top: 78px;
   }
 
 }
