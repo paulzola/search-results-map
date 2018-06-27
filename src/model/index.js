@@ -4,16 +4,14 @@ import * as ee from '../event-emmiter';
 
 class Model {
 
-    constructor (data = {}) {
+    constructor (data = {eventEmitter: ee}) {
 
         const {
-            place = {},
-            history = [],
-            eventEmitter = ee,
+            eventEmitter,
         } = data;
 
-        this.place = place;
-        this.history = history;
+        this.place = {};
+        this.history = [];
         this.activePlaceOnHistory = null;
         this.eventEmitter = eventEmitter;
     }
@@ -36,6 +34,10 @@ class Model {
 
     setPlace (place) {
 
+        if (!place) {
+            return;
+        }
+
         const newPlace = this._collectPlaceObj(place);
 
         if (this.place.id === newPlace.id) {
@@ -44,6 +46,23 @@ class Model {
 
         this.place = newPlace;
         this.publish('onPlaceChange', this.place);
+    }
+
+    setHistory (history) {
+
+        if (!history) {
+            return;
+        }
+
+        this.history = history;
+
+        const activePlace = this.history.find(i => i.active);
+
+        if (activePlace) {
+            this.setPlaceActiveInHistory(activePlace);
+        }
+
+        this.publish('onHistoryChange', this.history);
     }
 
     setPlaceActiveInHistory (place) {
@@ -55,13 +74,13 @@ class Model {
         this.activePlaceOnHistory = place;
         this.activePlaceOnHistory.active = true;
 
-        this.publish('onHistoryChange', this.history);
-
     }
 
     makeCurrentPlaceHistory () {
         this.history.unshift(this.place);
         this.setPlaceActiveInHistory(this.place);
+        this.publish('onHistoryChange', this.history);
+        this.publish('onMakeCurrentPlaceHistory');
     }
 
     selectHistoryPlace (id) {
@@ -75,6 +94,7 @@ class Model {
         if (historyPlace) {
             this.setPlace(historyPlace);
             this.setPlaceActiveInHistory(historyPlace);
+            this.publish('onHistoryChange', this.history);
         }
     }
 

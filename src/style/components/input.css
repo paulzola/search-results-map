@@ -9,6 +9,10 @@
   padding: 12px;
 }
 
+.srm-input::placeholder {
+  color: #8a8a8a;
+}
+
 .srm-input:focus {
   border-color: #85b7d9;
   outline: 0;

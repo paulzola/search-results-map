@@ -40,10 +40,8 @@ class Layout {
         return this.map;
     }
 
-    scrollToHistoryCard = cardBox => {
-        if (this.history.scrollTop !== 0) {
-            cardBox.scrollIntoView();
-        }
+    scrollToTop () {
+        this.history.scrollTop = 0;
     }
 
 }
