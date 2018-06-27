@@ -4,29 +4,39 @@ import * as ee from '../event-emmiter';
 
 class Model {
 
-    constructor (data = {}) {
+    constructor (data = {eventEmitter: ee}) {
 
         const {
-            place = {},
-            history = [],
-            eventEmitter = ee,
+            eventEmitter,
         } = data;
 
-        this.place = place;
-        this.history = history;
+        this.place = {};
+        this.history = [];
+        this.activePlaceOnHistory = null;
         this.eventEmitter = eventEmitter;
+    }
+
+    getHistory () {
+        return this.history;
+    }
+
+    getPlace () {
+        return this.place;
     }
 
     _collectPlaceObj (place) {
         if (place.id) {
             return place;
         }
-        const {location} = place;
-        const id = `${location.lat}-${location.lng}`;
+        const id = `${new Date().getTime()}`;
         return Object.assign({}, place, {id});
     }
 
     setPlace (place) {
+
+        if (!place) {
+            return;
+        }
 
         const newPlace = this._collectPlaceObj(place);
 
@@ -38,21 +48,42 @@ class Model {
         this.publish('onPlaceChange', this.place);
     }
 
-    addHistoryItem (place) {
-        const nPlace = this._collectPlaceObj(place);
-        this.history.unshift(nPlace);
-        this.publish('onAddHistoryItem', nPlace);
+    setHistory (history) {
+
+        if (!history) {
+            return;
+        }
+
+        this.history = history;
+
+        const activePlace = this.history.find(i => i.active);
+
+        if (activePlace) {
+            this.setPlaceActiveInHistory(activePlace);
+        }
+
+        this.publish('onHistoryChange', this.history);
     }
 
-    getHistory () {
-        return this.history;
+    setPlaceActiveInHistory (place) {
+
+        if (this.activePlaceOnHistory) {
+            this.activePlaceOnHistory.active = false;
+        }
+
+        this.activePlaceOnHistory = place;
+        this.activePlaceOnHistory.active = true;
+
     }
 
-    getPlace () {
-        return this.place;
+    makeCurrentPlaceHistory () {
+        this.history.unshift(this.place);
+        this.setPlaceActiveInHistory(this.place);
+        this.publish('onHistoryChange', this.history);
+        this.publish('onMakeCurrentPlaceHistory');
     }
 
-    selectHistoryItem (id) {
+    selectHistoryPlace (id) {
 
         if (!this.history.length) {
             return;
@@ -62,6 +93,8 @@ class Model {
 
         if (historyPlace) {
             this.setPlace(historyPlace);
+            this.setPlaceActiveInHistory(historyPlace);
+            this.publish('onHistoryChange', this.history);
         }
     }
 

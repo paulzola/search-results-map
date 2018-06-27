@@ -1,0 +1,21 @@
+.srm-empty-history {
+  display: inline-block;
+  text-align: left;
+}
+
+.srm-empty-history__icon {
+  display: inline-block;
+  height: 44px;
+  vertical-align: middle;
+  width: 44px;
+}
+
+.srm-empty-history__text {
+  box-sizing: border-box;
+  display: inline-block;
+  line-height: 1.4;
+  margin-left: -52px;
+  padding-left: 62px;
+  vertical-align: middle;
+  width: 100%;
+}

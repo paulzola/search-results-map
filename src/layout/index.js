@@ -1,5 +1,7 @@
 'use strict';
 
+import './style.css';
+
 class Layout {
 
     constructor ({container}) {
@@ -36,6 +38,10 @@ class Layout {
 
     getMapContainer () {
         return this.map;
+    }
+
+    scrollToTop () {
+        this.history.scrollTop = 0;
     }
 
 }

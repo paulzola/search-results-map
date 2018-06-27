@@ -1,5 +1,7 @@
 'use strict';
 
+import './style.css';
+
 import historyCard from '../history-card';
 import emptyHistory from '../empty-history';
 import recursiveNodeCheck from '../recursive-node-check';
@@ -44,11 +46,6 @@ class History {
         cardBox.setAttribute('data-history-id', historyItem.id);
         cardBox.innerHTML = historyCard(historyItem);
         return cardBox;
-    }
-
-    addHistoryCard (historyItem) {
-        this._removeEmptyMessage();
-        this.box.insertBefore(this._getCardBox(historyItem), this.box.firstChild);
     }
 
     _removeEmptyMessage () {

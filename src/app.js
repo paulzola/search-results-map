@@ -5,17 +5,16 @@ import Layout from './layout';
 import SearchBox from './search-box';
 import GMap from './g-map';
 import History from './history';
-//import * as storage from './storage';
+import * as storage from './storage';
 import getDefaultCoords from './get-default-coords';
 
-//const STORAGE_KEY = 'SRMModel';
+const STORAGE_KEY = 'SRMModel';
 
 const setMapPlace = (gMap, model) => {
 
     const place = model.getPlace();
 
-    if (place.location) {
-        gMap.addMarker(place);
+    if (place && place.location) {
         return;
     }
 
@@ -26,14 +25,31 @@ const setMapPlace = (gMap, model) => {
     });
 };
 
+const setInitialModel = model => {
+
+    const {
+        place = {},
+        history = [],
+    } = storage.load(STORAGE_KEY);
+
+    model.setPlace(place);
+    model.setHistory(history);
+
+};
+
+const saveToStorage = model => {
+    window.addEventListener('beforeunload', () => {
+        storage.save({
+            data: {
+                place: model.getPlace(),
+                history: model.getHistory(),
+            },
+            key: STORAGE_KEY,
+        });
+    });
+};
+
 const app = ({container}) => {
-
-    // const savedData = storage.load(STORAGE_KEY);
-
-    // const model = new Model({
-    //     place: savedData.place,
-    //     history: savedData.history,
-    // });
 
     const model = new Model();
 
@@ -43,33 +59,24 @@ const app = ({container}) => {
         container: layout.getSearchBoxContainer(),
         onPlaceChange: place => {
             model.setPlace(place);
-            model.addHistoryItem(place);
+            model.makeCurrentPlaceHistory();
         },
     });
 
     const gMap = new GMap({container: layout.getMapContainer()});
-    setMapPlace(gMap, model);
 
     const history = new History({
         container: layout.getHistoryContainer(),
-        onCardClick: id => model.selectHistoryItem(id),
+        onCardClick: id => model.selectHistoryPlace(id),
     });
 
-    const historyData = model.getHistory();
-    history.render(historyData);
-
     model.subscribe('onPlaceChange', place => gMap.addMarker(place));
-    model.subscribe('onAddHistoryItem', historyItem => history.addHistoryCard(historyItem));
+    model.subscribe('onHistoryChange', historyData => history.render(historyData));
+    model.subscribe('onMakeCurrentPlaceHistory', () => layout.scrollToTop());
 
-    // window.addEventListener('beforeunload', () => {
-    //     storage.save({
-    //         data: {
-    //             place: model.getPlace(),
-    //             history: model.getHistory(),
-    //         },
-    //         key: STORAGE_KEY,
-    //     });
-    // });
+    setInitialModel(model);
+    saveToStorage(model);
+    setMapPlace(gMap, model);
 
 };
 

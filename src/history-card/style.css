@@ -1,0 +1,24 @@
+.srm-history-card {
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 8px;
+}
+
+.srm-history-card:hover {
+  background-color: #e2f1fb;
+  border-color: #e2f1fb;
+}
+
+.srm-history-card_active,
+.srm-history-card_active:hover {
+  cursor: default;
+  background-color: transparent;
+  border-color: #85b7d9;
+}
+
+@media (min-width: 960px) {
+  .srm-history-card {
+    padding: 8px 12px;
+  }
+}

@@ -1,0 +1,19 @@
+.srm-input {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 12px;
+}
+
+.srm-input::placeholder {
+  color: #8a8a8a;
+}
+
+.srm-input:focus {
+  border-color: #85b7d9;
+  outline: 0;
+}

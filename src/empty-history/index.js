@@ -1,9 +1,15 @@
 'use strict';
 
+import '../icons/list-icon.css';
+import './style.css';
+
 const emptyHistory = () =>
     `
     <div class="srm-empty-history">
-    Ничего не добавлено в историю
+        <span class="srm-empty-history__icon srm-list-icon">
+        </span><span class="srm-empty-history__text srm-place-location">
+            Здесь будут найденные местоположения
+        </span>
     </div>
     `;
 

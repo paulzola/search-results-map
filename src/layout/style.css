@@ -1,0 +1,54 @@
+.srm-layout {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.srm-layout__search-box {
+  height: 54px;
+  left: 0;
+  padding: 16px 16px 0 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.srm-layout__history {
+  height: 64px;
+  left: 16px;
+  overflow-x: auto;
+  position: absolute;
+  right: 16px;
+  text-align: center;
+  top: 70px;
+}
+
+.srm-layout__map {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 138px;
+}
+
+@media (min-width: 960px) {
+
+  .srm-layout__history {
+    bottom: 0;
+    height: auto;
+    right: auto;
+    padding-right: 16px;
+    text-align: left;
+    top: 78px;
+    width: 200px;
+  }
+
+  .srm-layout__map {
+    left: 232px;
+    right: 16px;
+    top: 78px;
+  }
+
+}
