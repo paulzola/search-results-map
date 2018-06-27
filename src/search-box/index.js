@@ -1,5 +1,8 @@
 'use strict';
 
+import '../style/components/input.css';
+import './style.css';
+
 class SearchBox {
 
     constructor ({container, onPlaceChange}) {
@@ -12,7 +15,7 @@ class SearchBox {
         const box = document.createElement('div');
         box.className = 'srm-search-box';
         const input = document.createElement('input');
-        input.className = 'srm-search-box__input';
+        input.className = 'srm-input srm-search-box__input';
         this.input = input;
         box.appendChild(input);
         this.container.appendChild(box);
