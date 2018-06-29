@@ -1,6 +1,6 @@
 'use strict';
 
-import './style.css';
+import './style/_default.css';
 
 const offStatus = {
     title: 'Показать историю поиска',

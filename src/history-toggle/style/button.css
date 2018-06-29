@@ -20,29 +20,6 @@
   width: 32px;
 }
 
-.srm-history-toggle_close::after,
-.srm-history-toggle_open::after {
-  border-style: solid;
-  content: '';
-  display: block;
-  height: 0;
-  left: 40px;
-  position: absolute;
-  top: 18px;
-  width: 0;
-}
-
-.srm-history-toggle_close::after {
-  border-width: 0 5px 6px 5px;
-  border-color: transparent transparent #000 transparent;
-}
-
-.srm-history-toggle_open::after {
-  border-width: 6px 5px 0 5px;
-  border-color: #000 transparent transparent transparent;
-}
-
-.srm-history-toggle_tease .srm-history-toggle__icon,
 .srm-history-toggle:focus .srm-history-toggle__icon {
   transform: scale(1.1);
 }

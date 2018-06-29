@@ -1,0 +1,15 @@
+@keyframes movelist {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 32px;
+  }
+}
+
+.srm-history-toggle_tease .srm-history-toggle__icon {
+  animation: movelist 500ms steps(32);
+  background-repeat: repeat-y;
+  background-position: 0 0;
+}
