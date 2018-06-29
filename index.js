@@ -8,4 +8,4 @@ const serveDirectory = path.resolve(__dirname, './dist');
 
 app.use('/', express.static(serveDirectory));
 /*eslint-disable no-console*/
-app.listen(3000, () => console.log('Served on localhost:3000'));
+app.listen(3005, () => console.log('Served on localhost:3005'));
