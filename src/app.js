@@ -51,8 +51,7 @@ const saveToStorage = model => {
     });
 };
 
-const app = ({container}) => {
-
+const app = ({container, onReady}) => {
     const model = new Model();
 
     const layout = new Layout({container});
@@ -77,7 +76,7 @@ const app = ({container}) => {
         onCardClick: id => {
             model.selectHistoryPlace(id);
             if (windowSize.getScreenParams().isSmallScreen) {
-                historyToggle.hideHistory();
+                model.toggleHistoryShow();
             }
         },
     });
@@ -103,6 +102,7 @@ const app = ({container}) => {
     historyToggle.toggleStatus(model.getHistoryShow());
     saveToStorage(model);
 
+    onReady();
 };
 
 export default app;

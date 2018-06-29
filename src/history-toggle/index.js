@@ -1,5 +1,6 @@
 'use strict';
 
+import '../icons/list-icon.css';
 import './style/_default.css';
 
 const offStatus = {
