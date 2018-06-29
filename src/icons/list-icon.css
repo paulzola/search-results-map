@@ -2,11 +2,4 @@
   background-image: url('./list-icon.svg');
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  display: inline-block;
-  height: 24px;
-  width: 24px;
-}
-
-.srm-list-icon_gray {
-  background-image: url('./list-icon_gray.svg');
 }
