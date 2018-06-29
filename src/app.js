@@ -8,8 +8,21 @@ import History from './history';
 import * as storage from './storage';
 import getDefaultCoords from './get-default-coords';
 import HistoryToggle from './history-toggle';
+import windowSize from './window-size';
 
 const STORAGE_KEY = 'SRMModel';
+
+const setInitialModel = model => {
+
+    const {
+        place = {},
+        history = [],
+    } = storage.load(STORAGE_KEY);
+
+    model.setPlace(place);
+    model.setHistory(history);
+
+};
 
 const setMapPlace = (gMap, model) => {
 
@@ -26,18 +39,6 @@ const setMapPlace = (gMap, model) => {
     });
 };
 
-const setInitialModel = model => {
-
-    const {
-        place = {},
-        history = [],
-    } = storage.load(STORAGE_KEY);
-
-    model.setPlace(place);
-    model.setHistory(history);
-
-};
-
 const saveToStorage = model => {
     window.addEventListener('beforeunload', () => {
         storage.save({
@@ -50,8 +51,7 @@ const saveToStorage = model => {
     });
 };
 
-const app = ({container}) => {
-
+const app = ({container, onReady}) => {
     const model = new Model();
 
     const layout = new Layout({container});
@@ -66,22 +66,31 @@ const app = ({container}) => {
 
     const gMap = new GMap({container: layout.getMapContainer()});
 
-    const history = new History({
-        container: layout.getHistoryContainer(),
-        onCardClick: id => model.selectHistoryPlace(id),
-    });
-
     const historyToggle = new HistoryToggle({
         container: layout.getHistoryToggleContainer(),
-        onHistoryShowChange: historyShow => layout.setHistoryShow(historyShow),
+        onClick: () => model.toggleHistoryShow(),
+    });
+
+    const history = new History({
+        container: layout.getHistoryContainer(),
+        onCardClick: id => {
+            model.selectHistoryPlace(id);
+            if (windowSize.getScreenParams().isSmallScreen) {
+                model.toggleHistoryShow();
+            }
+        },
     });
 
     model.subscribe('onPlaceChange', place => {
         gMap.addMarker(place);
-        historyToggle.hideHistory();
     });
 
     model.subscribe('onHistoryChange', historyData => history.render(historyData));
+
+    model.subscribe('onHistoryShowToggle', historyShow => {
+        layout.historyShow(historyShow);
+        historyToggle.toggleStatus(historyShow);
+    });
 
     model.subscribe('onMakeCurrentPlaceHistory', () => {
         layout.scrollToTop();
@@ -89,9 +98,11 @@ const app = ({container}) => {
     });
 
     setInitialModel(model);
-    saveToStorage(model);
     setMapPlace(gMap, model);
+    historyToggle.toggleStatus(model.getHistoryShow());
+    saveToStorage(model);
 
+    onReady();
 };
 
 export default app;

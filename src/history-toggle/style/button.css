@@ -1,0 +1,35 @@
+.srm-history-toggle {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  padding: 0;
+  outline: none;
+  position: relative;
+  width: 100%;
+}
+
+.srm-history-toggle__icon {
+  height: 32px;
+  left: 0;
+  margin-top: -16px;
+  position: absolute;
+  top: 50%;
+  transition: transform 250ms;
+  width: 32px;
+}
+
+.srm-history-toggle:focus .srm-history-toggle__icon {
+  transform: scale(1.1);
+}
+
+.srm-history-toggle:active {
+  transform: translateY(2px);
+}
+
+@media (min-width: 1200px) {
+  .srm-history-toggle:hover .srm-history-toggle__icon {
+    transform: scale(1.1);
+  }
+}

@@ -1,0 +1,5 @@
+.srm-no-location-icon {
+  background-image: url('./no-location-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}

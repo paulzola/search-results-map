@@ -12,12 +12,17 @@ class Model {
 
         this.place = {};
         this.history = [];
+        this.historyShow = false;
         this.activePlaceOnHistory = null;
         this.eventEmitter = eventEmitter;
     }
 
     getHistory () {
         return this.history;
+    }
+
+    getHistoryShow () {
+        return this.historyShow;
     }
 
     getPlace () {
@@ -63,6 +68,11 @@ class Model {
         }
 
         this.publish('onHistoryChange', this.history);
+    }
+
+    toggleHistoryShow () {
+        this.historyShow = !this.historyShow;
+        this.publish('onHistoryShowToggle', this.historyShow);
     }
 
     setPlaceActiveInHistory (place) {

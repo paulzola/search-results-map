@@ -17,13 +17,13 @@ class Layout {
 
     _createBox () {
         this.root = this._createElement('srm-layout');
-        this.searchBox = this._createElement('srm-layout__search-box');
         this.historyToggle = this._createElement('srm-layout__history-toggle');
+        this.searchBox = this._createElement('srm-layout__search-box');
         this.history = this._createElement('srm-layout__history');
         this.map = this._createElement('srm-layout__map');
 
-        this.root.appendChild(this.searchBox);
         this.root.appendChild(this.historyToggle);
+        this.root.appendChild(this.searchBox);
         this.root.appendChild(this.history);
         this.root.appendChild(this.map);
 
@@ -50,12 +50,13 @@ class Layout {
         this.history.scrollTop = 0;
     }
 
-    setHistoryShow (historyShow) {
+    historyShow (historyShow) {
+        const SHOW_CLASS = 'srm-layout_history-show';
         if (historyShow) {
-            this.root.classList.add('srm-layout_history-show');
+            this.root.classList.add(SHOW_CLASS);
             return;
         }
-        this.root.classList.remove('srm-layout_history-show');
+        this.root.classList.remove(SHOW_CLASS);
     }
 
 }

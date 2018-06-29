@@ -17,7 +17,7 @@
   border-color: #85b7d9;
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1200px) {
   .srm-history-card {
     padding: 8px 12px;
   }
