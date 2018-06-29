@@ -2,22 +2,33 @@
 
 import './style.css';
 
+const offStatus = {
+    title: 'Показать историю поиска',
+    class: 'srm-history-toggle_open',
+};
+
+const onStatus = {
+    title: 'Скрыть историю поиска',
+    class: 'srm-history-toggle_close',
+};
+
 class HistoryToggle {
 
-    constructor ({container, onHistoryShowChange}) {
+    constructor ({container, onClick}) {
         this.container = container;
-        this.onHistoryShowChange = onHistoryShowChange;
-        this.historyShow = false;
+        this.onClick = onClick;
+        this.currentStatusClass = null;
         this._createBox();
     }
 
     _createButton () {
         const button = document.createElement('button');
         button.className = 'srm-history-toggle';
+
         const icon = document.createElement('span');
         icon.className = 'srm-history-toggle__icon srm-list-icon';
         button.appendChild(icon);
-        button.title = 'Показать / скрыть историю';
+
         return button;
     }
 
@@ -28,26 +39,30 @@ class HistoryToggle {
         this.button.addEventListener('click', this._handleButtonClick);
     }
 
+
     _handleButtonClick = () => {
-        this.historyShow = !this.historyShow;
-        this.onHistoryShowChange(this.historyShow);
-    }
-
-    showHistory () {
-        this.historyShow = true;
-        this.onHistoryShowChange(this.historyShow)
-    }
-
-    hideHistory () {
-        this.historyShow = false;
-        this.onHistoryShowChange(this.historyShow);
+        this.onClick();
     }
 
     tease () {
-        this.button.classList.add('srm-history-toggle_tease');
-        setTimeout(() => this.button.classList.remove('srm-history-toggle_tease'), 500);
+        const TEASE_CLASS = 'srm-history-toggle_tease';
+        this.button.classList.add(TEASE_CLASS);
+        setTimeout(() => this.button.classList.remove(TEASE_CLASS), 500);
     }
 
+    toggleStatus (historyShow) {
+
+        const status = historyShow ? onStatus : offStatus;
+
+        this.button.title = status.title;
+
+        if (this.currentStatusClass) {
+            this.button.classList.remove(this.currentStatusClass);
+        }
+
+        this.button.classList.add(status.class);
+        this.currentStatusClass = status.class;
+    }
 
 }
 
