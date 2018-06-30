@@ -20,6 +20,12 @@ class Layout {
         this.historyToggle = this._createElement('srm-layout__history-toggle');
         this.searchBox = this._createElement('srm-layout__search-box');
         this.history = this._createElement('srm-layout__history');
+
+        this.historyClear = this._createElement('srm-layout__history-clear');
+        this.historyCards = this._createElement('srm-layout__history-cards');
+        this.history.appendChild(this.historyCards);
+        this.history.appendChild(this.historyClear);
+
         this.map = this._createElement('srm-layout__map');
 
         this.root.appendChild(this.historyToggle);
@@ -38,8 +44,12 @@ class Layout {
         return this.historyToggle;
     }
 
+    getHistoryClearContainer () {
+        return this.historyClear;
+    }
+
     getHistoryContainer () {
-        return this.history;
+        return this.historyCards;
     }
 
     getMapContainer () {

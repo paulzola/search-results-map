@@ -12,6 +12,7 @@ class Model {
 
         this.place = {};
         this.history = [];
+        this.prevHistory = [];
         this.historyShow = false;
         this.activePlaceOnHistory = null;
         this.eventEmitter = eventEmitter;
@@ -59,6 +60,8 @@ class Model {
             return;
         }
 
+        this.setPrevHistory([]);
+
         this.history = history;
 
         const activePlace = this.history.find(i => i.active);
@@ -68,6 +71,28 @@ class Model {
         }
 
         this.publish('onHistoryChange', this.history);
+    }
+
+    clearHistory () {
+        const prevHistory = this.history.slice();
+        this.history = [];
+        this.setPrevHistory(prevHistory);
+        this.publish('onHistoryChange', this.history);
+    }
+
+    setPrevHistory (prevHistory) {
+        this.prevHistory = prevHistory;
+        this.publish('onPrevHistorySet', prevHistory);
+    }
+
+    returnPrevHistory () {
+
+        if (!this.prevHistory.length) {
+            return;
+        }
+
+        this.setHistory(this.prevHistory);
+        this.setPrevHistory([]);
     }
 
     toggleHistoryShow () {
@@ -88,6 +113,7 @@ class Model {
 
     makeCurrentPlaceHistory () {
         this.history.unshift(this.place);
+        this.setPrevHistory([]);
         this.setPlaceActiveInHistory(this.place);
         this.publish('onHistoryChange', this.history);
         this.publish('onMakeCurrentPlaceHistory');

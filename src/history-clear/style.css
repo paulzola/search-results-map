@@ -1,0 +1,21 @@
+.srm-clear-history-button {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted;
+  font-size: 18px;
+  color: #85b7d9;
+  cursor: pointer;
+  display: inline-block;
+  outline: none;
+  padding: 0;
+}
+
+.srm-clear-history-button:focus,
+.srm-clear-history-button:hover {
+  color: #0082d9;
+}
+
+.srm-clear-history-button:active {
+  color: #d96b6b;
+  transform: translateY(2px);
+}
