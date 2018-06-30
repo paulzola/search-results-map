@@ -8,6 +8,7 @@ import History from './history';
 import * as storage from './storage';
 import getDefaultCoords from './get-default-coords';
 import HistoryToggle from './history-toggle';
+import HistoryClear from './history-clear';
 import windowSize from './window-size';
 
 const STORAGE_KEY = 'SRMModel';
@@ -21,6 +22,7 @@ const setInitialModel = model => {
 
     model.setPlace(place);
     model.setHistory(history);
+    model.setPrevHistory([]);
 
 };
 
@@ -41,10 +43,18 @@ const setMapPlace = (gMap, model) => {
 
 const saveToStorage = model => {
     window.addEventListener('beforeunload', () => {
+
+        let place = model.getPlace();
+        const history = model.getHistory();
+
+        if (!history.length) {
+            place = {};
+        }
+
         storage.save({
             data: {
-                place: model.getPlace(),
-                history: model.getHistory(),
+                place,
+                history,
             },
             key: STORAGE_KEY,
         });
@@ -81,11 +91,22 @@ const app = ({container, onReady}) => {
         },
     });
 
+    const historyClear = new HistoryClear({
+        container: layout.getHistoryClearContainer(),
+        onClearClick: () => model.clearHistory(),
+        onUndoClick: () => model.returnPrevHistory(),
+    });
+
     model.subscribe('onPlaceChange', place => {
         gMap.addMarker(place);
     });
 
-    model.subscribe('onHistoryChange', historyData => history.render(historyData));
+    model.subscribe('onHistoryChange', historyData => {
+        history.render(historyData);
+        historyClear.showHistory(historyData);
+    });
+
+    model.subscribe('onPrevHistorySet', prevHistory => historyClear.showPrevHistory(prevHistory));
 
     model.subscribe('onHistoryShowToggle', historyShow => {
         layout.historyShow(historyShow);

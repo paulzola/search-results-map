@@ -39,6 +39,11 @@
   display: block;
 }
 
+.srm-layout__history-clear {
+  margin-left: 13px;
+  margin-top: 16px;
+}
+
 .srm-layout__map {
   bottom: 0;
   left: 0;
