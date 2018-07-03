@@ -1,65 +1,17 @@
 'use strict';
 
-import Model from './model';
-import Layout from './layout';
-import SearchBox from './search-box';
-import GMap from './g-map';
-import History from './history';
-import * as storage from './storage';
-import getDefaultCoords from './get-default-coords';
-import HistoryToggle from './history-toggle';
-import HistoryClear from './history-clear';
-import windowSize from './window-size';
+import Model from '../model';
+import Layout from '../layout';
+import SearchBox from '../search-box';
+import GMap from '../g-map';
+import History from '../history';
+import HistoryToggle from '../history-toggle';
+import HistoryClear from '../history-clear';
+import windowSize from '../window-size';
 
-const STORAGE_KEY = 'SRMModel';
-
-const setInitialModel = model => {
-
-    const {
-        place = {},
-        history = [],
-    } = storage.load(STORAGE_KEY);
-
-    model.setPlace(place);
-    model.setHistory(history);
-    model.setPrevHistory([]);
-
-};
-
-const setMapPlace = (gMap, model) => {
-
-    const place = model.getPlace();
-
-    if (place && place.location) {
-        return;
-    }
-
-    getDefaultCoords(coords => {
-        if (!model.getPlace().location) {
-            gMap.setCenter(coords);
-        }
-    });
-};
-
-const saveToStorage = model => {
-    window.addEventListener('beforeunload', () => {
-
-        let place = model.getPlace();
-        const history = model.getHistory();
-
-        if (!history.length) {
-            place = {};
-        }
-
-        storage.save({
-            data: {
-                place,
-                history,
-            },
-            key: STORAGE_KEY,
-        });
-    });
-};
+import setInitialModel from './set-initial-model';
+import setMapPlace from './set-map-place';
+import saveToStorage from './save-to-storage';
 
 const app = ({container, onReady}) => {
     const model = new Model();
